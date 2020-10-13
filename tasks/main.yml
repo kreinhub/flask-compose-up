@@ -1,0 +1,16 @@
+- name: Log into DockerHub
+  community.general.docker_login:
+    url: "{{ docker_registry.url }}"
+    username: "{{ docker_registry.user }}"
+    password: "{{ docker_registry.password }}" 
+
+- name: Deploy flask app from a compose file
+  community.general.docker_compose:
+    project_src: "{{ dest_path }}"
+    project_name: "{{ project_name }}"
+    recreate: always
+
+# - name: Deploy flask app from a compose file
+#   shell: "docker-compose -f docker-compose.yaml -p {{ project_name }} up -d --force-recreate"
+#   args:
+#     chdir: "{{ dest_path }}"
