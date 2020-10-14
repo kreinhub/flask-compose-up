@@ -7,6 +7,7 @@
 - name: Deploy flask app from a compose file
   community.general.docker_compose:
     project_src: "{{ dest_path }}"
+    files: "{{role_name}}.yaml"
     project_name: "{{ project_name }}"
     recreate: always
 
