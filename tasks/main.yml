@@ -1,7 +1,7 @@
 - name: Template a compose files to dest_path on target host
   template:
-    src: {{ role_path }}/templates/docker-compose.yml.j2
-    dest: {{ dest_path }}/{{ role_name }}.yaml
+    src: "{{ role_path }}/templates/docker-compose.yml.j2"
+    dest: "{{ dest_path }}/{{ role_name }}.yaml"
     owner: deploy
     group: deploy
     mode: '0644'
