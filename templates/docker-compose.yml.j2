@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  flask-web:
+    container_name: {{lookup('env','CI_PROJECT_NAME')}}-{{lookup('env', 'CI_COMMIT_REF_SLUG')}}
+    image: {{lookup('env','CI_REGISTRY')}}/{{lookup('env','CI_PROJECT_PATH')}}/{{lookup('env','CI_PROJECT_NAME')}}-web:{{lookup('env','CI_COMMIT_REF_SLUG')}}
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: {{lookup('env','CI_COMMIT_REF_SLUG')}}.web.{{lookup('env','DEPLOY_DOMAIN')}}
+      VIRTUAL_PORT: "5000"
+    expose:
+      - "5000"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    name: proxy
