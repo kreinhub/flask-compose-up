@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include flask-compose-up"
+      include_role:
+        name: "flask-compose-up"
