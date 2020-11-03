@@ -1,33 +1,55 @@
-- name: Template a compose files to dest_path on target host
-  template:
-    src: "{{ role_path }}/templates/docker-compose.yml.j2"
-    dest: "{{ dest_path }}/{{ role_name }}.yaml"
-    owner: deploy
-    group: deploy
-    mode: '0644'
+---
+- name: Flask | Setup and run flask app
+  become: yes
+  become_method: sudo
+  block:
+    - name: Create target directory
+      file: 
+        path: "{{ dest_path }}"
+        state: directory 
+        mode: '0755'
+      
+    - name: Template a compose files to dest_path on target host
+      template:
+        src: "{{ role_path }}/templates/docker-compose.yml.j2"
+        dest: "{{ dest_path }}/{{ role_name }}.yaml"
+        owner: deploy
+        group: deploy
+        mode: '0644'
 
-- name: Log into DockerHub
-  community.general.docker_login:
-    url: "{{ docker_registry.url }}"
-    username: "{{ docker_registry.user }}"
-    password: "{{ docker_registry.password }}" 
+    # - name: Print debug creds
+    #   debug:
+    #     msg:
+    #     - "{{ docker_registry.url }}"
+    #     - "{{ docker_registry.user }}"
+    #     - "{{ docker_registry.password }}"
 
-- name: Stop flask containers if they run
-  community.general.docker_compose:
-    project_src: "{{ dest_path }}"
-    files: "{{ role_name }}.yaml"
-    project_name: "{{ project_name }}"
-    remove_orphans: yes
-    stopped: yes
+    - name: Log into DockerHub
+      community.general.docker_login:
+        registry_url: "{{ docker_registry.url }}"
+        username: "{{ docker_registry.user }}"
+        password: "{{ docker_registry.password }}" 
 
-- name: Deploy flask app from a compose file
-  community.general.docker_compose:
-    project_src: "{{ dest_path }}"
-    files: "{{role_name}}.yaml"
-    project_name: "{{ project_name }}"
-    recreate: always
+    - name: Stop flask containers if they run
+      community.general.docker_compose:
+        project_src: "{{ dest_path }}"
+        files: "{{ role_name }}.yaml"
+        project_name: "{{ project_name }}"
+        remove_orphans: yes
+        stopped: yes
+      tags:
+        - molecule-idempotence-notest
 
-# - name: Deploy flask app from a compose file
-#   shell: "docker-compose -f docker-compose.yaml -p {{ project_name }} up -d --force-recreate"
-#   args:
-#     chdir: "{{ dest_path }}"
+    - name: Deploy flask app from a compose file
+      community.general.docker_compose:
+        project_src: "{{ dest_path }}"
+        files: "{{role_name}}.yaml"
+        project_name: "{{ project_name }}"
+        recreate: always
+      tags:
+        - molecule-idempotence-notest
+
+    # - name: Deploy flask app from a compose file
+    #   shell: "docker-compose -f docker-compose.yaml -p {{ project_name }} up -d --force-recreate"
+    #   args:
+    #     chdir: "{{ dest_path }}"

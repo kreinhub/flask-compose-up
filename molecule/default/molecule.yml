@@ -4,9 +4,9 @@ dependency:
 driver:
   name: vagrant
 platforms:
-  - name: fcu-ubuntu-20.04
+  - name: ubuntu-20.04
     box: bento/ubuntu-20.04
 provisioner:
   name: ansible
 verifier:
-  name: testinfra
+  name: ansible
