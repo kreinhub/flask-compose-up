@@ -3,4 +3,4 @@
 roles:
 - src: "kreinhub.docker_compose_install"
 - src: "kreinhub.ingress_compose_up"
-- src: "kreinhub.flask-compose-up"
+- src: "kreinhub.flask_compose_up"
