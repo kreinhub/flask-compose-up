@@ -2,10 +2,9 @@
 - name: Converge
   hosts: all
   roles:
-    - role: "kreinhub.docker_compose_install"
-    - role: "kreinhub.ingress_compose_up"
-    # - role: "kreinhub.flask_compose_up"
+    - role: "docker-compose-install"
+    - role: "ingress-compose-up"
   tasks:
     - name: "Include flask-compose-up"
       include_role:
-        name: "kreinhub.flask_compose_up"
+        name: "flask-compose-up"
