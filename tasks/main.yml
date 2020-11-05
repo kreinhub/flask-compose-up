@@ -17,12 +17,12 @@
         group: deploy
         mode: '0644'
 
-    # - name: Print debug creds
-    #   debug:
-    #     msg:
-    #     - "{{ docker_registry.url }}"
-    #     - "{{ docker_registry.user }}"
-    #     - "{{ docker_registry.password }}"
+    - name: Print debug creds
+      debug:
+        msg:
+        - "{{ docker_registry.url }}"
+        - "{{ docker_registry.user }}"
+        - "{{ docker_registry.password }}"
 
     - name: Log into DockerHub
       community.general.docker_login:
