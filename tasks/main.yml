@@ -12,7 +12,8 @@
     - name: Template a compose files to dest_path on target host
       template:
         src: "{{ role_path }}/templates/docker-compose.yml.j2"
-        dest: "{{ dest_path }}/{{ role_name }}.yaml"
+        dest: "{{ dest_path }}/{{ project_name }}.yaml"
+        # dest: "{{ dest_path }}/{{ role_name }}.yaml"
         owner: deploy
         group: deploy
         mode: '0644'
@@ -33,7 +34,8 @@
     - name: Stop flask containers if they run
       community.general.docker_compose:
         project_src: "{{ dest_path }}"
-        files: "{{ role_name }}.yaml"
+        files: "{{ project_name }}.yaml"
+        # files: "{{ role_name }}.yaml"
         project_name: "{{ project_name }}"
         remove_orphans: yes
         stopped: yes
@@ -43,7 +45,8 @@
     - name: Deploy flask app from a compose file
       community.general.docker_compose:
         project_src: "{{ dest_path }}"
-        files: "{{role_name}}.yaml"
+        files: "{{ project_name }}.yaml"
+        # files: "{{role_name}}.yaml"
         project_name: "{{ project_name }}"
         recreate: always
       tags:
