@@ -8,5 +8,15 @@ docker_registry:
 project_name: "{{ lookup('env', 'CI_PROJECT_NAME') | default('lms', true) }}-{{ lookup('env', 'CI_COMMIT_REF_SLUG') | default('dev', true) }}-{{ lookup('env','CI_JOB_STAGE') | default('web', true) }}"
 dest_path: "/var/www/"
 image_name: "{{ docker_registry.url  }}/{{ lookup('env','CI_PROJECT_PATH') | default('otus6/projects/lms',true) }}/{{lookup('env','CI_PROJECT_NAME') | default('lms', true) }}-{{ lookup('env','CWE') | default('staging', true) }}:{{lookup('env','CI_COMMIT_REF_SLUG') | default('dev', true) }}"
-virtual_host: "{{ lookup('env','CI_COMMIT_REF_SLUG') | default('dev', true) }}.{{ lookup('env','CI_JOB_STAGE') | default('web', true) }}.{{ lookup('env','DEPLOY_DOMAIN') | default('localhost', true) }}"
+virtual_host: "{{ lookup('env','CWE') | default('dev', true) }}.{{ lookup('env','CI_PROJECT_NAME') | default('web', true) }}.{{ lookup('env','DEPLOY_DOMAIN') | default('localhost', true) }}"
+# virtual_host: "{{ lookup('env','CI_COMMIT_REF_SLUG') | default('dev', true) }}.{{ lookup('env','CI_JOB_STAGE') | default('web', true) }}.{{ lookup('env','DEPLOY_DOMAIN') | default('localhost', true) }}"
 # image_name: "{{ docker_registry.url  }}/{{ lookup('env','CI_PROJECT_PATH') | default('otus6/projects/lms',true) }}/{{lookup('env','CI_PROJECT_NAME') | default('lms', true) }}-{{ lookup('env','CI_JOB_STAGE') | default('web', true) }}:{{lookup('env','CI_COMMIT_REF_SLUG') | default('dev', true) }}"
+
+# CI_COMMIT_REF_SLUG.CI_JOB_STAGE.DEPLOY_DOMAIN
+# dns.deploy.lms-otus.ml
+
+# CI_PROJECT_NAME-CWE.DEPLOY_DOMAIN
+# lms-staging.inpublic.net
+
+# CWE.CI_PROJECT_NAME.DEPLOY_DOMAIN
+# staging.lms.inpublic.net
